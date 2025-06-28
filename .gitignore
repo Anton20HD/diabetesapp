@@ -1,0 +1,34 @@
+# ---- Global ----
+.DS_Store
+Thumbs.db
+
+# ---- Node / React ----
+frontend/node_modules/
+frontend/build/
+frontend/.env
+
+# ---- .NET ----
+backend/bin/
+backend/obj/
+backend/.vs/
+backend/*.user
+backend/*.suo
+backend/*.db
+backend/*.log
+
+# ---- System / Editor ----
+*.swp
+*.tmp
+*.log
+*.lock
+*.bak
+.vscode/
+.idea/
+
+# ---- Logs ----
+*.log
+
+# ---- OS ----
+ehthumbs.db
+Icon?
+desktop.ini
