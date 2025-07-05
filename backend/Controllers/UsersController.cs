@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
+using backend.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 
@@ -23,9 +24,29 @@ namespace backend.Controllers
 
         [HttpGet]
         public IActionResult GetAllUsers()
-        {   
-             //Returnerar ett 200 meddelande
+        {
+            //Returnerar ett 200 meddelande
             return Ok(dbContext.Users.ToList());
+        }
+
+        [HttpPost]
+        public IActionResult AddUser(AddUserDto addUserDto)
+        {
+
+
+            var userEntity = new User()
+            {
+                FirstName = addUserDto.FirstName,
+                LastName = addUserDto.LastName,
+                Email = addUserDto.Email,
+                Password = addUserDto.Password
+            };
+
+            // EFC vill att du ska använda savechanges för att spara informationen
+            dbContext.Users.Add(userEntity);
+            dbContext.SaveChanges();
+
+            return Ok(userEntity);
         }
         
     }
