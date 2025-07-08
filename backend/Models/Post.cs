@@ -15,6 +15,12 @@ namespace backend.Models
         public required string Content { get; set; }
         public required DateTime PublishedDate { get; set; }
 
-        public required string Password { get; set; }
+          //Foreign key
+        public int UserId { get; set; }
+        public required User User { get; set; }
+
+        //List<Comments> funkar också men ICollection är mer flexibelt
+        public required ICollection<Comments> Comments { get; set; }
+
     }
 }
