@@ -62,6 +62,48 @@ namespace backend.Controllers
 
             return Ok(user);
         }
+
+
+        [HttpPut]
+        [Route("{id:int}")]
+        public IActionResult UpdateUser(int id, UpdateUserDto updateUserDto)
+        {
+            var user = dbContext.Users.Find(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            user.FirstName = updateUserDto.FirstName;
+            user.LastName = updateUserDto.LastName;
+            user.Email = updateUserDto.Email;
+            user.Password = updateUserDto.Password;
+
+            dbContext.SaveChanges();
+            return Ok(user);
+
+        }
+
+
+        [HttpDelete]
+        [Route("{id:int}")]
+        public IActionResult DeleteUser(int id)
+        {
+            var user = dbContext.Users.Find(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            dbContext.Users.Remove(user);
+            dbContext.SaveChanges();
+
+
+            return Ok();
+
+        }
         
     }
 }
