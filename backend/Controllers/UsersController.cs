@@ -48,6 +48,20 @@ namespace backend.Controllers
 
             return Ok(userEntity);
         }
+
+        [HttpGet]
+        [Route("{id:int}")]
+        public IActionResult GetUserById(int id)
+        {
+            var user = dbContext.Users.Find(id);
+
+            if (user is null)
+            {
+                return NotFound();
+            }
+
+            return Ok(user);
+        }
         
     }
 }
