@@ -34,17 +34,17 @@ namespace backend.Controllers
 
         }
 
-         [HttpPost]
+        [HttpPost]
         public IActionResult CreatePost(CreatePostDto createPostDto)
         {
 
 
             var post = new Post()
             {
-                    Title = createPostDto.Title,
-                    Content = createPostDto.Content,
-                    PublishedDate = createPostDto.PublishedDate,
-                    UserId = createPostDto.UserId
+                Title = createPostDto.Title,
+                Content = createPostDto.Content,
+                PublishedDate = createPostDto.PublishedDate,
+                UserId = createPostDto.UserId
             };
 
             // EFC vill att du ska använda savechanges för att spara informationen
@@ -53,6 +53,27 @@ namespace backend.Controllers
 
             return Ok(post);
         }
+        
+        [HttpPut]
+        [Route("{id:int}")]
+        public async Task<IActionResult> UpdatePost(int id, UpdatePostDto updatePostDto)
+        {
+            var post = await dbContext.Posts.FirstOrDefaultAsync(p => p.Id == id);
+
+            if (post is null)
+            {
+                return NotFound();
+            }
+
+            post.Title = updatePostDto.Title;
+            post.Content = updatePostDto.Content;
+            post.PublishedDate = updatePostDto.PublishedDate;
+
+            await dbContext.SaveChangesAsync();
+            return Ok(post);
+
+        }
+
 
 
 

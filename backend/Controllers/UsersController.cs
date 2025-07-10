@@ -21,14 +21,17 @@ namespace backend.Controllers
             this.dbContext = dbContext;
         }
 
-
+        
+        //Gör alla crud metoder asynkrona
         [HttpGet]
         public IActionResult GetAllUsers()
         {
             //Returnerar ett 200 meddelande
             return Ok(dbContext.Users.ToList());
         }
-
+        
+        
+        //Gör alla crud metoder asynkrona
         [HttpPost]
         public IActionResult AddUser(AddUserDto addUserDto)
         {
@@ -63,7 +66,7 @@ namespace backend.Controllers
             return Ok(user);
         }
 
-
+        //Gör alla crud metoder asynkrona
         [HttpPut]
         [Route("{id:int}")]
         public IActionResult UpdateUser(int id, UpdateUserDto updateUserDto)
@@ -85,7 +88,8 @@ namespace backend.Controllers
 
         }
 
-
+        
+        //Gör alla crud metoder asynkrona
         [HttpDelete]
         [Route("{id:int}")]
         public IActionResult DeleteUser(int id)
