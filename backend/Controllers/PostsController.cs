@@ -25,11 +25,17 @@ namespace backend.Controllers
         // Kallar på och hämtar inläggen som användaren har skapat
         public async Task<IActionResult> FetchUserDetails()
         {
-            var Post = await dbContext.Posts
+            var post = await dbContext.Posts
                 .Include(p => p.User)
                 .ToListAsync();
 
-            return Ok(Post);
+
+            if (post is null || post.Count == 0)
+            {
+                return NotFound();
+            }
+
+            return Ok(post);
 
 
         }
@@ -53,7 +59,7 @@ namespace backend.Controllers
 
             return Ok(post);
         }
-        
+
         [HttpPut]
         [Route("{id:int}")]
         public async Task<IActionResult> UpdatePost(int id, UpdatePostDto updatePostDto)
@@ -74,10 +80,31 @@ namespace backend.Controllers
 
         }
 
+        [HttpDelete]
+        [Route("{id:int}")]
+        public async Task<IActionResult> DeletePost(int id)
+        {
+            var post = await dbContext.Posts.Include(p => p.User)
+            .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (post is null)
+            {
+                return NotFound();
+            }
+
+            dbContext.Posts.Remove(post);
+            dbContext.SaveChanges();
 
 
+            return Ok();
 
-        
+        }
 
     }
+
+
+
+
+
+
 }
