@@ -5,19 +5,10 @@ using System.Threading.Tasks;
 
 namespace backend.Models
 {
-    public class Comments
+    public class UpdateCommentDto
     {
-        public int Id { get; set; }
-
-
-        //User
         public required string Author { get; set; }
-        public required string Title { get; set; }
         public required string Content { get; set; }
         public required DateTime PublishedDate { get; set; }
-
-        //Foreign key
-        public int PostId { get; set; }
-        public required Post Post { get; set; }
     }
 }
