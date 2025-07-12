@@ -8,12 +8,13 @@ namespace backend.Models
     public class CreateCommentDto
     {
         public required string Author { get; set; }
-        public required string Title { get; set; }
         public required string Content { get; set; }
         public required DateTime PublishedDate { get; set; }
 
         //Foreign key
         public int PostId { get; set; }
+
+        public int UserId { get; set; }
 
     }
 }

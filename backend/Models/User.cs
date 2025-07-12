@@ -16,5 +16,10 @@ namespace backend.Models
         public required string Email { get; set; }
 
         public required string Password { get; set; }
+
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
+
+
+
     }
 }

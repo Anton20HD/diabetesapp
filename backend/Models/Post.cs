@@ -20,7 +20,7 @@ namespace backend.Models
         public  User? User { get; set; }
 
         //List<Comments> funkar också men ICollection är mer flexibelt
-        public ICollection<Comments> Comments { get; set; } = new List<Comments>();
+        public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
     }
 }
