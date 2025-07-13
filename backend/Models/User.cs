@@ -17,6 +17,8 @@ namespace backend.Models
 
         public required string Password { get; set; }
 
+        // eventuellt lägga till datetime i framtiden 
+
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
 
