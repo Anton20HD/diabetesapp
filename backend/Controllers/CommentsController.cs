@@ -4,8 +4,10 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 
 namespace backend.Controllers
 {
@@ -55,9 +57,19 @@ namespace backend.Controllers
         }
 
 
+       
+
+        [Authorize]
         [HttpPost]
         public async Task<IActionResult> CreateComment(CreateCommentDto createCommentDto)
         {
+            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+            if (userIdClaim == null)
+            {
+                return Unauthorized("UserId not found in token");
+            }
+
+            var userId = int.Parse(userIdClaim.Value);
 
 
             var comment = new Comment()
@@ -65,8 +77,8 @@ namespace backend.Controllers
                 Author = createCommentDto.Author,
                 Content = createCommentDto.Content,
                 PublishedDate = createCommentDto.PublishedDate,
-                UserId = createCommentDto.UserId,
-                PostId = createCommentDto.PostId
+                PostId = createCommentDto.PostId,
+                UserId = userId,
 
             };
 

@@ -10,12 +10,12 @@ namespace backend.Models
         //Int funkar men Guid kan vara bättre för bla säkerhet och exportering av data mellan olika system
         public int Id { get; set; } // unikt id
 
-        // required förhindrar ofullständiga objekt, kompatibelt med null-säkerhet, slipper skapa konstruktor
-        public required string FirstName { get; set; }
-        public required string LastName { get; set; }
-        public required string Email { get; set; }
+        
+        public string FirstName { get; set; } = string.Empty;
+        public string LastName { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+        public string Password { get; set; } = string.Empty;
 
-        public required string Password { get; set; }
 
         // eventuellt lägga till datetime i framtiden 
 

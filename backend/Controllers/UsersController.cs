@@ -31,26 +31,7 @@ namespace backend.Controllers
         }
         
         
-        //Gör alla crud metoder asynkrona
-        [HttpPost]
-        public IActionResult AddUser(AddUserDto addUserDto)
-        {
-
-
-            var userEntity = new User()
-            {
-                FirstName = addUserDto.FirstName,
-                LastName = addUserDto.LastName,
-                Email = addUserDto.Email,
-                Password = addUserDto.Password
-            };
-
-            // EFC vill att du ska använda savechanges för att spara informationen
-            dbContext.Users.Add(userEntity);
-            dbContext.SaveChanges();
-
-            return Ok(userEntity);
-        }
+       
 
         [HttpGet]
         [Route("{id:int}")]

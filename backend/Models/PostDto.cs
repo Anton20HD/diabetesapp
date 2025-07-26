@@ -11,6 +11,8 @@ namespace backend.Models
         public required string Title { get; set; }
         public required string Content { get; set; }
         public required DateTime PublishedDate { get; set; }
+
+        //behålla userid här eftersom det skickas ut till klienten
         public int UserId { get; set; }
 
          public ICollection<Comment> Comments { get; set; } = new List<Comment>();

@@ -14,7 +14,7 @@ namespace backend.Models
         public required DateTime PublishedDate { get; set; }
 
     // Ta bort i framtiden då JWT kommert implementeras!
-        public int UserId { get; set; }
+    
 
     }
 }

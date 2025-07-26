@@ -1,3 +1,4 @@
+using System.Security.Claims;
 using System.Text;
 using backend.Data;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,7 +13,8 @@ builder.Services.AddControllers();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
 options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options => {
+builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJwtBearer(options =>
+{
     options.TokenValidationParameters = new TokenValidationParameters
     {
         ValidateIssuer = true,
@@ -21,17 +23,22 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme).AddJw
         ValidateIssuerSigningKey = true,
         ValidIssuer = builder.Configuration["JWTKey:ValidIssuer"],
         ValidAudience = builder.Configuration["JWTKey:ValidAudience"],
-        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTKey:Secret"]))
+        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["JWTKey:Secret"])),
 
     };
 
-    });
+});
+
+
+
+builder.Services.AddAuthorization();
+
 
 var app = builder.Build();
 
-app.MapControllers();
 
 app.UseAuthentication();
 app.UseAuthorization();
+
+app.MapControllers();
 app.Run();
-    
