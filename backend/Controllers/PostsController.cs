@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -35,7 +36,7 @@ namespace backend.Controllers
                 return NotFound();
             }
 
-            
+
             var postDtos = post.Select(c => new PostDto
             {
                 Id = c.Id,
@@ -43,7 +44,7 @@ namespace backend.Controllers
                 Content = c.Content,
                 PublishedDate = c.PublishedDate,
                 UserId = c.UserId,
-              
+
             }).ToList();
 
             return Ok(postDtos);
@@ -52,24 +53,32 @@ namespace backend.Controllers
         }
 
         [HttpPost]
-        public async Task <IActionResult> CreatePost(CreatePostDto createPostDto)
+        [Authorize]
+        public async Task<IActionResult> CreatePost(CreatePostDto createPostDto)
         {
 
+            var userIdClaim = User.FindFirst("UserId");
+            if (userIdClaim == null)
+            {
+                return Unauthorized("UserId not found in token");
+            }
+
+            var userId = int.Parse(userIdClaim.Value);
 
             var post = new Post()
             {
                 Title = createPostDto.Title,
                 Content = createPostDto.Content,
                 PublishedDate = createPostDto.PublishedDate,
-                UserId = createPostDto.UserId
+                UserId = userId
             };
 
             // EFC vill att du ska använda savechanges för att spara informationen
             dbContext.Posts.Add(post);
             await dbContext.SaveChangesAsync();
 
-              
-           return Ok(new
+
+            return Ok(new
             {
                 post.Id,
                 post.Title,
@@ -80,7 +89,7 @@ namespace backend.Controllers
 
         }
 
-        
+
 
         [HttpPut]
         [Route("{id:int}")]

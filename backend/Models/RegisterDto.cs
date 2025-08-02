@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 
 namespace backend.Models
 {
-    public class AddUserDto
+    public class RegisterDto
     {
         public required string FirstName { get; set; }
         public required string LastName { get; set; }

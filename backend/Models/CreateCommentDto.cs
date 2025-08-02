@@ -14,7 +14,7 @@ namespace backend.Models
         //Foreign key
         public int PostId { get; set; }
 
-        public int UserId { get; set; }
+    
 
     }
 }

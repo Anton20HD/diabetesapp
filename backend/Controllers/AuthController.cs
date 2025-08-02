@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using backend.Data;
 using backend.Models;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -52,6 +53,43 @@ namespace backend.Controllers
 
         }
 
+
+        [HttpPost("register")]
+        public async Task<IActionResult> RegisterUser(RegisterDto registerDto)
+        {
+            var existingUser = await dbContext.Users.FirstOrDefaultAsync(u => u.Email == registerDto.Email);
+            if (existingUser is not null)
+            {
+                return BadRequest("User with this email already exists");
+            }
+
+            var userEntity = new User()
+            {
+                FirstName = registerDto.FirstName,
+                LastName = registerDto.LastName,
+                Email = registerDto.Email,
+                Password = ""
+            };
+
+            var hasher = new PasswordHasher<User>();
+            userEntity.Password = hasher.HashPassword(userEntity, registerDto.Password);
+
+
+            // EFC vill att du ska använda savechanges för att spara informationen
+            dbContext.Users.Add(userEntity);
+            await dbContext.SaveChangesAsync();
+
+            var userDto = new UserDto
+            {
+                Id = userEntity.Id,
+                FirstName = userEntity.FirstName,
+                LastName = userEntity.LastName,
+                Email = userEntity.Email
+            };
+
+            return Ok(userDto);
+        }
+
         private string GenerateJSONWebToken(User userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWTKey:Secret"]));
@@ -71,7 +109,15 @@ namespace backend.Controllers
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            Console.WriteLine($"=== TOKEN DEBUG ===");
+            Console.WriteLine($"Token length: {tokenString.Length}");
+            Console.WriteLine($"Dots count: {tokenString.Count(c => c == '.')}");
+            Console.WriteLine($"First 100 chars: {tokenString.Substring(0, Math.Min(100, tokenString.Length))}");
+            Console.WriteLine($"=================");
+
+            return tokenString;
         }
 
 
@@ -83,8 +129,13 @@ namespace backend.Controllers
             if (user is null)
                 return null;
 
-            if (user.Password != loginDto.Password)
+            var hasher = new PasswordHasher<User>();
+            var result = hasher.VerifyHashedPassword(user, user.Password, loginDto.Password);
+
+            if (result == PasswordVerificationResult.Failed)
                 return null;
+
+
 
             return user;
 
