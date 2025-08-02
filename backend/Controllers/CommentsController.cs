@@ -57,13 +57,16 @@ namespace backend.Controllers
         }
 
 
-       
 
-        [Authorize]
+
+
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> CreateComment(CreateCommentDto createCommentDto)
         {
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
+
+
+            var userIdClaim = User.FindFirst("UserId");
             if (userIdClaim == null)
             {
                 return Unauthorized("UserId not found in token");
@@ -77,8 +80,8 @@ namespace backend.Controllers
                 Author = createCommentDto.Author,
                 Content = createCommentDto.Content,
                 PublishedDate = createCommentDto.PublishedDate,
-                PostId = createCommentDto.PostId,
                 UserId = userId,
+                PostId = createCommentDto.PostId
 
             };
 

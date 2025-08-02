@@ -21,6 +21,10 @@ namespace backend.Data
             base.OnModelCreating(modelBuilder);
 
 
+            modelBuilder.Entity<User>()
+                .HasIndex(u => u.Email)
+                .IsUnique();
+
 
             modelBuilder.Entity<Comment>()
                 .HasOne(c => c.User)
@@ -34,12 +38,7 @@ namespace backend.Data
                 .HasForeignKey(c => c.PostId)
                 .OnDelete(DeleteBehavior.Cascade);
 
-
         }
-
-
-
-
 
         //Property for the collection we are going to store in the db, in this case the user, post and comments
         public DbSet<User> Users { get; set; }

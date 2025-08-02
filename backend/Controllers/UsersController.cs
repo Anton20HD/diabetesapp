@@ -29,9 +29,6 @@ namespace backend.Controllers
             //Returnerar ett 200 meddelande
             return Ok(dbContext.Users.ToList());
         }
-        
-        
-       
 
         [HttpGet]
         [Route("{id:int}")]

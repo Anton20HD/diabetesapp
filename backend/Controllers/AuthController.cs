@@ -60,7 +60,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("register")]
-        public async Task<IActionResult> Register([FromBody] RegisterDto registerDto)
+        public async Task<IActionResult> RegisterUser([FromBody] RegisterDto registerDto)
         {
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
@@ -69,35 +69,43 @@ namespace backend.Controllers
             {
                 return BadRequest("Email already exists");
             }
-
-            var user = new User
+            var userEntity = new User()
             {
                 FirstName = registerDto.FirstName,
                 LastName = registerDto.LastName,
-                Email = registerDto.Email
+                Email = registerDto.Email,
+                Password = ""
             };
 
-
             var hasher = new PasswordHasher<User>();
-            user.Password = hasher.HashPassword(user, registerDto.Password);
+            userEntity.Password = hasher.HashPassword(userEntity, registerDto.Password);
 
-            dbContext.Users.Add(user);
+
+            // EFC vill att du ska använda savechanges för att spara informationen
+            dbContext.Users.Add(userEntity);
             await dbContext.SaveChangesAsync();
 
-            return Ok("User registered successfully");
+            //Anledningen till att vi har en userdto är för att bestämma vad klienten(frontend) kan se och inte
+            var userDto = new UserDto
+            {
+                Id = userEntity.Id,
+                FirstName = userEntity.FirstName,
+                LastName = userEntity.LastName,
+                Email = userEntity.Email
+            };
 
+            return Ok(userDto);
         }
 
-       
         private string GenerateJSONWebToken(User userInfo)
         {
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(config["JWTKey:Secret"]));
             var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
 
             var claims = new[] {
-        new Claim(ClaimTypes.Email, userInfo.Email),
-        new Claim(ClaimTypes.NameIdentifier, userInfo.Id.ToString()),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+        new Claim(JwtRegisteredClaimNames.Email, userInfo.Email),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+        new Claim("UserId", userInfo.Id.ToString())
     };
 
             var token = new JwtSecurityToken(
@@ -107,7 +115,15 @@ namespace backend.Controllers
                 expires: DateTime.Now.AddHours(3),
                 signingCredentials: credentials);
 
-            return new JwtSecurityTokenHandler().WriteToken(token);
+            var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
+
+            Console.WriteLine($"=== TOKEN DEBUG ===");
+            Console.WriteLine($"Token length: {tokenString.Length}");
+            Console.WriteLine($"Dots count: {tokenString.Count(c => c == '.')}");
+            Console.WriteLine($"First 100 chars: {tokenString.Substring(0, Math.Min(100, tokenString.Length))}");
+            Console.WriteLine($"=================");
+
+            return tokenString;
         }
 
 
@@ -124,6 +140,8 @@ namespace backend.Controllers
 
             if (result == PasswordVerificationResult.Failed)
                 return null;
+
+
 
             return user;
 

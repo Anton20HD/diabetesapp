@@ -1,4 +1,4 @@
-using System;
+ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Security.Claims;
 
 namespace backend.Controllers
 {
@@ -23,7 +22,6 @@ namespace backend.Controllers
             this.dbContext = dbContext;
         }
 
-
         // Kallar på och hämtar inläggen som användaren har skapat
         public async Task<IActionResult> FetchUserDetails()
         {
@@ -31,12 +29,10 @@ namespace backend.Controllers
                 .Include(p => p.User)
                 .ToListAsync();
 
-
             if (post is null || post.Count == 0)
             {
                 return NotFound();
             }
-
 
             var postDtos = post.Select(c => new PostDto
             {
@@ -50,25 +46,14 @@ namespace backend.Controllers
 
             return Ok(postDtos);
 
-
         }
 
-
-        //[AllowAnonymous]
         [HttpPost]
         [Authorize]
         public async Task<IActionResult> CreatePost(CreatePostDto createPostDto)
-
         {
 
-            foreach (var claim in User.Claims)
-            {
-                Console.WriteLine($"CLAIM: {claim.Type} = {claim.Value}");
-            }
-
-
-            var userIdClaim = User.FindFirst(ClaimTypes.NameIdentifier);
-
+            var userIdClaim = User.FindFirst("UserId");
             if (userIdClaim == null)
             {
                 return Unauthorized("UserId not found in token");
@@ -76,19 +61,17 @@ namespace backend.Controllers
 
             var userId = int.Parse(userIdClaim.Value);
 
-
             var post = new Post()
             {
                 Title = createPostDto.Title,
                 Content = createPostDto.Content,
                 PublishedDate = createPostDto.PublishedDate,
-                UserId = userId,
+                UserId = userId
             };
 
             // EFC vill att du ska använda savechanges för att spara informationen
             dbContext.Posts.Add(post);
             await dbContext.SaveChangesAsync();
-
 
             return Ok(new
             {
@@ -98,10 +81,7 @@ namespace backend.Controllers
                 post.PublishedDate,
             });
 
-
         }
-
-
 
         [HttpPut]
         [Route("{id:int}")]
@@ -138,16 +118,10 @@ namespace backend.Controllers
             dbContext.Posts.Remove(post);
             dbContext.SaveChanges();
 
-
             return Ok();
 
         }
 
     }
-
-
-
-
-
 
 }

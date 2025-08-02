@@ -15,6 +15,8 @@ namespace backend.Models
 
         public int PostId { get; set; }
 
+
+        //Behåll userid här, viktigt för frontend för att se vem som skrev kommentaren
         public int UserId { get; set; }
 
 
