@@ -117,12 +117,6 @@ namespace backend.Controllers
 
             var tokenString = new JwtSecurityTokenHandler().WriteToken(token);
 
-            Console.WriteLine($"=== TOKEN DEBUG ===");
-            Console.WriteLine($"Token length: {tokenString.Length}");
-            Console.WriteLine($"Dots count: {tokenString.Count(c => c == '.')}");
-            Console.WriteLine($"First 100 chars: {tokenString.Substring(0, Math.Min(100, tokenString.Length))}");
-            Console.WriteLine($"=================");
-
             return tokenString;
         }
 

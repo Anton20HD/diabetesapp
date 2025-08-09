@@ -8,10 +8,10 @@ namespace backend.Models
 {
     public class LoginDto
     {
-        [Required, EmailAddress]
+        [Required(ErrorMessage = "Email is required"), EmailAddress(ErrorMessage = "Invalid Email")]
         public string Email { get; set; } = string.Empty;
 
-        [Required]
+        [Required(ErrorMessage = "Password is required")]
         public string Password { get; set; } = string.Empty;
     }
 }
