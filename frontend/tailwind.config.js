@@ -1,6 +1,10 @@
 module.exports = {
   theme: {
     extend: {
+        fontFamily: {
+        montserratAlt: ['var(--font-montserrat-alternates)', 'sans-serif'],
+        montserrat: ['var(--font-montserrat)', 'sans-serif'],
+      },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0' },

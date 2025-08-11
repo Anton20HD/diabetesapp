@@ -1,18 +1,24 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Montserrat_Alternates, Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header/Header";
 import { SearchProvider } from "./components/SearchContext/SearchContext";
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
+
+
+const montserratAlt = Montserrat_Alternates({
   subsets: ["latin"],
+  weight: ["100", "200", "300", "400", "500"],
+  variable: "--font-montserrat-alternates"
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
+const montserrat = Montserrat({
   subsets: ["latin"],
-});
+  weight: ["100", "200", "300", "400", "500"]
+})
+
+
+
 
 export const metadata: Metadata = {
   title: "SugarMates",
@@ -25,7 +31,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-     <html lang="en">
+     <html lang="en" className={montserratAlt.className}>
         <body>
           <SearchProvider>
         <Header/>
