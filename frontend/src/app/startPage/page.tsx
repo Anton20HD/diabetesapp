@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import PostPage from "../postPage/page";
 
 //import Products from "@/app/components/products/page";
 
@@ -21,21 +22,21 @@ const StartPage = () => {
     <div className="h-screen bg-repeat bg-cover bg-center absolute overflow-hidden">
       <div className="fixed">
         <div className="fixed top-0 left-0 h-screen w-48 z-1 pt-30 bg-white">
-          <ul className=" flex leading-15 flex-col justify-center items-center text-base no-underline">
+          <ul className=" cursor-pointer  text-sm text-gray-400 flex leading-15 flex-col justify-center items-center  no-underline">
             <li>Home</li>
             <li>Popular</li>
             <li>Explore</li>
             <li>All</li>
           </ul>
 
-           <ul className=" flex leading-15 flex-col justify-center items-center text-base no-underline">
-          <h3 className="">Communities</h3>
+           <ul className=" cursor-pointer  text-gray-400 flex leading-15 flex-col justify-center items-center text-sm  no-underline">
+          <h3 className="text-blue-950 font-bold">Communities</h3>
             <li>Create Community</li>
             <li>Manage communities</li>
           </ul>
 
-           <ul className=" flex leading-15 flex-col justify-center items-center text-base no-underline">
-          <h3 className="">Resources</h3>
+           <ul className=" cursor-pointer  text-gray-400 flex leading-15 flex-col justify-center items-center text-sm   no-underline">
+          <h3 className="text-blue-950 font-bold">Resources</h3>
             <li>About us</li>
             <li>Contact us</li>
           </ul>
@@ -61,9 +62,9 @@ const StartPage = () => {
             interests, and connect with people who truly understand —
           </h4>
         </div>
+        <PostPage/>
       </div>
 
-      {/* <Products /> */}
     </div>
   );
 };

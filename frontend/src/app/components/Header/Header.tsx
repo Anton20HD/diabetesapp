@@ -50,12 +50,12 @@ const Header = () => {
 
   return (
     <>
-      {isVisible && <div className="fixed top-0 left-0 w-full h-full  bg-black bg-opacity-60 z-1 opacity-0 animate-fadeIn" onClick={toggleMenu}></div>}
+      {isVisible && <div className=" fixed top-0 left-0 w-full h-full  bg-black bg-opacity-60 z-1 opacity-0 animate-fadeIn" onClick={toggleMenu}></div>}
 
       
 
 
-      <div className="relativ overflow-hidden h-25 flex justify-between flex-row items-center bg-white">
+      <div className=" fixed top-0 left-0 w-full z-50 bg-white flex justify-between items-center h-25">
         <div className="z-2">
           <Link href="/" passHref>
             <div>
