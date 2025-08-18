@@ -55,7 +55,7 @@ const Header = () => {
       
 
 
-      <div className="relative overflow-hidden h-25 flex justify-between flex-row items-center bg-white">
+      <div className="relativ overflow-hidden h-25 flex justify-between flex-row items-center bg-white">
         <div className="z-2">
           <Link href="/" passHref>
             <div>

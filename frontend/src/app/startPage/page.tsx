@@ -19,7 +19,29 @@ const StartPage = () => {
 
   return (
     <div className="h-screen bg-repeat bg-cover bg-center absolute overflow-hidden">
-      <div className="relative">
+      <div className="fixed">
+        <div className="fixed top-0 left-0 h-screen w-48 z-1 pt-30 bg-white">
+          <ul className=" flex leading-15 flex-col justify-center items-center text-base no-underline">
+            <li>Home</li>
+            <li>Popular</li>
+            <li>Explore</li>
+            <li>All</li>
+          </ul>
+
+           <ul className=" flex leading-15 flex-col justify-center items-center text-base no-underline">
+          <h3 className="">Communities</h3>
+            <li>Create Community</li>
+            <li>Manage communities</li>
+          </ul>
+
+           <ul className=" flex leading-15 flex-col justify-center items-center text-base no-underline">
+          <h3 className="">Resources</h3>
+            <li>About us</li>
+            <li>Contact us</li>
+          </ul>
+          
+        </div>
+
         <video
           className="w-600 h-150  object-cover"
           src="/videos/startpage.mp4"
@@ -29,13 +51,15 @@ const StartPage = () => {
         />
 
         <div className="absolute top-13/25 left-13/25 bg-transparent transform -translate-x-1/2 -translate-y-1/2 py-[10px] px-[20px] flex justify-center flex-col tracking-widest">
-        <h1 className="text-white text-2xl  mb-5 font-bold">Join the diabetes community today — start sharing your story</h1>
-        <h4 className="text-[#E0F7FA] font-semibold text-shadow">
-          — Got questions about life with diabetes? Whether it’s about sports,
-          relationships, or personal challenges, we’ve got you covered. Explore
-          different categories to find communities that match your interests,
-          and connect with people who truly understand —
-        </h4>
+          <h1 className="text-white text-2xl  mb-5 font-bold">
+            Join the diabetes community today — start sharing your story
+          </h1>
+          <h4 className="text-[#E0F7FA] font-semibold text-shadow">
+            — Got questions about life with diabetes? Whether it’s about sports,
+            relationships, or personal challenges, we’ve got you covered.
+            Explore different categories to find communities that match your
+            interests, and connect with people who truly understand —
+          </h4>
         </div>
       </div>
 
