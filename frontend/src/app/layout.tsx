@@ -3,6 +3,7 @@ import { Montserrat_Alternates, Montserrat } from "next/font/google";
 import "./globals.css";
 import Header from "./components/Header/Header";
 import { SearchProvider } from "./components/SearchContext/SearchContext";
+import SideBar from "./components/SideBar/SideBar";
 
 
 
@@ -36,6 +37,7 @@ export default function RootLayout({
           <SearchProvider>
         <Header/>
         <main>
+          <SideBar/>
           {children}
         </main>
         </SearchProvider>

@@ -3,6 +3,7 @@
 import React from "react";
 import PostPage from "../postPage/page";
 import SideBar from "../components/SideBar/SideBar";
+import AllPostsPage from "../postPage/page";
 
 const StartPage = () => {
   return (
@@ -36,7 +37,7 @@ const StartPage = () => {
             </h4>
           </div>
         </div>
-        <PostPage />
+        <AllPostsPage/>
       </div>
     </div>
   );
