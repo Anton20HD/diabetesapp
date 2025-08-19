@@ -22,7 +22,9 @@ namespace backend.Controllers
             this.dbContext = dbContext;
         }
 
-        // Kallar på och hämtar inläggen som användaren har skapat
+        
+
+        [HttpGet]
         public async Task<IActionResult> FetchUserDetails()
         {
             var post = await dbContext.Posts
@@ -47,6 +49,36 @@ namespace backend.Controllers
             return Ok(postDtos);
 
         }
+
+        [HttpGet]
+         [Route("{id:int}")]
+        public async Task<IActionResult> getPostById(int id)
+        {
+           var post = await dbContext.Posts
+           .Include(p => p.User) 
+           .FirstOrDefaultAsync(p => p.Id == id);
+
+            if (post is null)
+            {
+                return NotFound();
+            }
+
+            var postDto = new PostDto
+            {
+                Id = post.Id,
+                Title = post.Title,
+                Content = post.Content,
+                PublishedDate = post.PublishedDate,
+                UserId = post.UserId
+            };
+
+
+             
+            return Ok(postDto);
+
+        }
+
+
 
         [HttpPost]
         [Authorize]
